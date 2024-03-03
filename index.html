@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Api</title>
+</head>
+<body>
+    <input type="text" id="searchInput" placeholder="Search">
+    <button id="searchButton">Search</button>
+    <div id="results"></div>
+</body>
+<script>
+    const searchButton = document.getElementById('searchButton')
+    const searchInput = document.getElementById('searchInput')
+    const searchResults = document.getElementById('results')
+
+    searchButton.addEventListener('click' , () => {
+        const searchQuery = searchInput.value 
+
+        searchResults.innerHTML = ''
+
+        fetch (`https://api.pexels.com/v1/search?query=${searchQuery}`, {
+            headers: {
+                'Authorization': 'fEsBN0jr23I509oBuaXQnNAty3ieqPlqvoQJlpI75fbY2xv81sETanqt'
+            }
+        })
+        .then(response => response.json())
+        .then(body => {
+            searchResults.innerHtml = ''
+
+            body.photos.forEach(photo => {
+                const img = document.createElement('img')
+                img.src = photo.src.medium
+                img.alt = photo.alt
+                searchResults.appendChild(img)
+
+            }) 
+        })
+    })
+</script>
+</html>
